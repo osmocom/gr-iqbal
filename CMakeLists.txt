@@ -76,8 +76,15 @@ endif()
 ########################################################################
 find_package(LibOsmoDSP)
 
+if(LIBOSMODSP_FOUND)
+    set(LIBOSMODSP_SOURCES "")
+endif()
+
 if(NOT LIBOSMODSP_FOUND)
-    message(FATAL_ERROR "libosmo-dsp required to compile iqbalance")
+    message(STATUS "libosmodsp not found, using local checkout")
+    set(LIBOSMODSP_INCLUDE_DIRS "libosmo-dsp/include/")
+    set(LIBOSMODSP_LIBRARIES "")
+    set(LIBOSMODSP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/src/cxvec.c ${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/src/iqbal.c)
 endif()
 
 ########################################################################
