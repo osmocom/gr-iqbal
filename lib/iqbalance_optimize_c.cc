@@ -44,7 +44,7 @@ iqbalance_optimize_c::iqbalance_optimize_c (int period)
   : gr_sync_block ("optimize_c",
 		   gr_make_io_signature(1, 1, sizeof (gr_complex)),
 		   gr_make_io_signature(0, 0, 0)),
-    d_period(period), d_first(true), d_mag(0.0f), d_phase(0.0f)
+    d_period(period), d_count(0), d_first(true), d_mag(0.0f), d_phase(0.0f)
 {
 	message_port_register_out(pmt::mp("iqbal_corr"));
 }

@@ -56,7 +56,11 @@ class IQBALANCE_API iqbalance_optimize_c : public gr_sync_block
   float mag() const { return this->d_mag; }
   float phase() const { return this->d_phase; }
 
-  void reset(void) { this->d_first = true; this->d_mag = this->d_phase = 0.0f; }
+  void reset(void) {
+	this->d_first = true;
+	this->d_count = 0;
+	this->d_mag = this->d_phase = 0.0f;
+  }
 
   void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
