@@ -1,0 +1,3 @@
+[submodule "libosmo-dsp"]
+	path = libosmo-dsp
+	url = git://git.osmocom.org/libosmo-dsp
