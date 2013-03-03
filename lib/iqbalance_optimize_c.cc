@@ -64,7 +64,7 @@ iqbalance_optimize_c::forecast (int noutput_items, gr_vector_int &ninput_items_r
 		ninput_items_required[i] = FFT_SIZE * FFT_COUNT;
 }
 
-#include <stdio.h>
+
 int
 iqbalance_optimize_c::work(int noutput_items,
 		  gr_vector_const_void_star &input_items,
@@ -115,8 +115,6 @@ iqbalance_optimize_c::work(int noutput_items,
 		this->d_mag   = (0.95f * this->d_mag  ) + (p[0] * 0.05f);
 		this->d_phase = (0.95f * this->d_phase) + (p[1] * 0.05f);
 	}
-
-	printf("%d %e %e\n", this->d_period, this->d_mag, this->d_phase);
 
 	p[0] = this->d_mag;
 	p[1] = this->d_phase;
