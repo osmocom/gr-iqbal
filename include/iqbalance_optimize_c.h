@@ -29,7 +29,7 @@ class iqbalance_optimize_c;
 
 typedef boost::shared_ptr<iqbalance_optimize_c> iqbalance_optimize_c_sptr;
 
-IQBALANCE_API iqbalance_optimize_c_sptr iqbalance_make_optimize_c (int period);
+IQBALANCE_API iqbalance_optimize_c_sptr iqbalance_make_optimize_c (int period=0);
 
 /*!
  * \brief <+description+>
