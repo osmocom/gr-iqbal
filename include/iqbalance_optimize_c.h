@@ -51,10 +51,10 @@ class IQBALANCE_API iqbalance_optimize_c : public gr_sync_block
   ~iqbalance_optimize_c();
 
   void set_period(int period) { this->d_period = period; }
-  const int period() const { return this->d_period; }
+  int period() const { return this->d_period; }
 
-  const float mag() const { return this->d_mag; }
-  const float phase() const { return this->d_phase; }
+  float mag() const { return this->d_mag; }
+  float phase() const { return this->d_phase; }
 
   void reset(void) { this->d_first = true; this->d_mag = this->d_phase = 0.0f; }
 

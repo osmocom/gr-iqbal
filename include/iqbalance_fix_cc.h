@@ -51,8 +51,8 @@ class IQBALANCE_API iqbalance_fix_cc : public gr_sync_block
   void set_mag(float mag) { this->d_mag = mag; }
   void set_phase(float phase) { this->d_phase = phase; }
 
-  const float mag() const { return this->d_mag; }
-  const float phase() const { return this->d_phase; }
+  float mag() const { return this->d_mag; }
+  float phase() const { return this->d_phase; }
 
   void apply_new_corrections (pmt::pmt_t msg);
 
