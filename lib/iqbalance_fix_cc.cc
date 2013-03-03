@@ -72,6 +72,11 @@ iqbalance_fix_cc::work (int noutput_items,
 	gr_complex *out = (gr_complex *) output_items[0];
 	int i;
 
+	if (this->d_mag == 0.0f && this->d_phase == 0.0f) {
+		memcpy(out, in, noutput_items * sizeof(gr_complex));
+		return noutput_items;
+	}
+
 	const float magp1 = 1.0f + this->d_mag;
 	const float phase = this->d_phase;
 
