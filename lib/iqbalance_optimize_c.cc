@@ -102,7 +102,10 @@ iqbalance_optimize_c::work(int noutput_items,
 	memcpy(&opts, &osmo_iqbal_default_opts, sizeof(opts));
 	opts.fft_size = FFT_SIZE;
 	opts.fft_count = FFT_COUNT;
-	opts.start_at_prev = 0;
+	opts.start_at_prev = 1;
+
+	p[0] = this->d_mag;
+	p[1] = this->d_phase;
 
 	osmo_cxvec_init_from_data(sig, (float complex *)in, N);
 	osmo_iqbal_cxvec_optimize(sig, &p[0], &p[1], &opts);
