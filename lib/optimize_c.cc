@@ -22,8 +22,8 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
-#include "iqbalance_optimize_c.h"
+#include <gnuradio/io_signature.h>
+#include <gnuradio/iqbalance/optimize_c.h>
 
 extern "C" {
 #include <osmocom/dsp/cxvec.h>
@@ -34,30 +34,32 @@ extern "C" {
 #define FFT_COUNT	4
 
 
-iqbalance_optimize_c_sptr
-iqbalance_make_optimize_c (int period)
+namespace gr {
+
+iqbalance::optimize_c::sptr
+iqbalance::optimize_c::make(int period)
 {
-	return gnuradio::get_initial_sptr (new iqbalance_optimize_c(period));
+	return gnuradio::get_initial_sptr (new iqbalance::optimize_c(period));
 }
 
-iqbalance_optimize_c::iqbalance_optimize_c (int period)
-  : gr_sync_block ("optimize_c",
-		   gr_make_io_signature(1, 1, sizeof (gr_complex)),
-		   gr_make_io_signature(0, 0, 0)),
+iqbalance::optimize_c::optimize_c(int period)
+  : gr::sync_block ("optimize_c",
+		   gr::io_signature::make(1, 1, sizeof (gr_complex)),
+		   gr::io_signature::make(0, 0, 0)),
     d_period(period), d_count(0), d_first(true), d_mag(0.0f), d_phase(0.0f)
 {
 	message_port_register_out(pmt::mp("iqbal_corr"));
 }
 
 
-iqbalance_optimize_c::~iqbalance_optimize_c()
+iqbalance::optimize_c::~optimize_c()
 {
 	/* Nothing to do */
 }
 
 
 void
-iqbalance_optimize_c::forecast (int noutput_items, gr_vector_int &ninput_items_required)
+iqbalance::optimize_c::forecast(int noutput_items, gr_vector_int &ninput_items_required)
 {
 	unsigned ninputs = ninput_items_required.size ();
 	for (unsigned i = 0; i < ninputs; i++)
@@ -66,7 +68,7 @@ iqbalance_optimize_c::forecast (int noutput_items, gr_vector_int &ninput_items_r
 
 
 int
-iqbalance_optimize_c::work(int noutput_items,
+iqbalance::optimize_c::work(int noutput_items,
 		  gr_vector_const_void_star &input_items,
 		  gr_vector_void_star &output_items)
 {
@@ -121,8 +123,11 @@ iqbalance_optimize_c::work(int noutput_items,
 
 	p[0] = this->d_mag;
 	p[1] = this->d_phase;
-	pmt::pmt_t msg = pmt::pmt_init_f32vector(2, p);
+	pmt::pmt_t msg = pmt::init_f32vector(2, p);
 	message_port_pub(pmt::mp("iqbal_corr"), msg);
 
 	return N;
 }
+
+} /* namespace gr */
+

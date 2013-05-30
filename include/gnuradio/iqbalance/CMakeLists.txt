@@ -1,4 +1,4 @@
-# Copyright 2011 Free Software Foundation, Inc.
+# Copyright 2011,2012 Free Software Foundation, Inc.
 #
 # This file is part of GNU Radio
 #
@@ -21,7 +21,8 @@
 # Install public header files
 ########################################################################
 install(FILES
-    iqbalance_api.h
-    iqbalance_fix_cc.h
-    iqbalance_optimize_c.h DESTINATION include/iqbalance
+    api.h
+    fix_cc.h
+    optimize_c.h
+    DESTINATION include/gnuradio/iqbalance
 )

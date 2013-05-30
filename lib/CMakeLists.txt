@@ -19,8 +19,17 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-add_library(gnuradio-iqbalance SHARED iqbalance_fix_cc.cc iqbalance_optimize_c.cc ${LIBOSMODSP_SOURCES})
-target_link_libraries(gnuradio-iqbalance ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES} ${LIBOSMODSP_LIBRARIES})
+
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIRS})
+
+list(APPEND iqbalance_sources
+     fix_cc.cc
+     optimize_c.cc
+)
+
+add_library(gnuradio-iqbalance SHARED ${iqbalance_sources} ${LIBOSMODSP_SOURCES})
+target_link_libraries(gnuradio-iqbalance ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${LIBOSMODSP_LIBRARIES})
 set_target_properties(gnuradio-iqbalance PROPERTIES DEFINE_SYMBOL "gnuradio_iqbalance_EXPORTS")
 
 ########################################################################

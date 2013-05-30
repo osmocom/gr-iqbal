@@ -9,12 +9,12 @@
 
 
 %{
-#include "iqbalance_fix_cc.h"
-#include "iqbalance_optimize_c.h"
+#include "gnuradio/iqbalance/fix_cc.h"
+#include "gnuradio/iqbalance/optimize_c.h"
 %}
 
-GR_SWIG_BLOCK_MAGIC(iqbalance,fix_cc);
-%include "iqbalance_fix_cc.h"
+%include "gnuradio/iqbalance/fix_cc.h"
+GR_SWIG_BLOCK_MAGIC2(iqbalance, fix_cc);
 
-GR_SWIG_BLOCK_MAGIC(iqbalance,optimize_c);
-%include "iqbalance_optimize_c.h"
+%include "gnuradio/iqbalance/optimize_c.h"
+GR_SWIG_BLOCK_MAGIC2(iqbalance, optimize_c);

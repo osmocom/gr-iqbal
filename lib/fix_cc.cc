@@ -22,49 +22,50 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
-#include "iqbalance_fix_cc.h"
+#include <gnuradio/io_signature.h>
+#include <gnuradio/iqbalance/fix_cc.h>
 
+namespace gr {
 
-iqbalance_fix_cc_sptr
-iqbalance_make_fix_cc (float mag, float phase)
+iqbalance::fix_cc::sptr
+iqbalance::fix_cc::make(float mag, float phase)
 {
-	return gnuradio::get_initial_sptr (new iqbalance_fix_cc(mag, phase));
+	return gnuradio::get_initial_sptr(new iqbalance::fix_cc(mag, phase));
 }
 
 
-iqbalance_fix_cc::iqbalance_fix_cc (float mag, float phase)
-  : gr_sync_block ("fix_cc",
-		   gr_make_io_signature(1, 1, sizeof (gr_complex)),
-		   gr_make_io_signature(1, 1, sizeof (gr_complex))),
+iqbalance::fix_cc::fix_cc(float mag, float phase)
+  : gr::sync_block ("fix_cc",
+		   gr::io_signature::make(1, 1, sizeof (gr_complex)),
+		   gr::io_signature::make(1, 1, sizeof (gr_complex))),
     d_mag(mag),
     d_phase(phase)
 {
 	message_port_register_in(pmt::mp("iqbal_corr"));
 	set_msg_handler(pmt::mp("iqbal_corr"),
-			boost::bind(&iqbalance_fix_cc::apply_new_corrections, this, _1));
+			boost::bind(&iqbalance::fix_cc::apply_new_corrections, this, _1));
 }
 
 
-iqbalance_fix_cc::~iqbalance_fix_cc()
+iqbalance::fix_cc::~fix_cc()
 {
 	/* Nothing to do */
 }
 
 
 void
-iqbalance_fix_cc::apply_new_corrections (pmt::pmt_t msg)
+iqbalance::fix_cc::apply_new_corrections(pmt::pmt_t msg)
 {
-	if (!pmt_is_f32vector(msg))
+	if (!pmt::is_f32vector(msg))
 		return;
 
-	this->set_mag(pmt_f32vector_ref(msg, 0));
-	this->set_phase(pmt_f32vector_ref(msg, 1));
+	this->set_mag(pmt::f32vector_ref(msg, 0));
+	this->set_phase(pmt::f32vector_ref(msg, 1));
 }
 
 
 int
-iqbalance_fix_cc::work (int noutput_items,
+iqbalance::fix_cc::work(int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
 {
@@ -90,3 +91,6 @@ iqbalance_fix_cc::work (int noutput_items,
 
 	return noutput_items;
 }
+
+} /* namespace gr */
+

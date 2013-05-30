@@ -22,7 +22,7 @@
 #ifndef INCLUDED_IQBALANCE_API_H
 #define INCLUDED_IQBALANCE_API_H
 
-#include <gruel/attributes.h>
+#include <gnuradio/attributes.h>
 
 #ifdef gnuradio_iqbalance_EXPORTS
 #  define IQBALANCE_API __GR_ATTR_EXPORT

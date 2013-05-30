@@ -3,7 +3,7 @@
   <name>IQ Bal Fix</name>
   <key>iqbalance_fix_cc</key>
   <category>IQ Balance</category>
-  <import>import iqbalance</import>
+  <import>from gnuradio import iqbalance</import>
   <make>iqbalance.fix_cc($mag, $phase)</make>
   <callback>set_mag($mag)</callback>
   <callback>set_phase($phase)</callback>

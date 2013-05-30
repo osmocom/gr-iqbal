@@ -3,7 +3,7 @@
   <name>IQ Bal Optimize</name>
   <key>iqbalance_optimize_c</key>
   <category>IQ Balance</category>
-  <import>import iqbalance</import>
+  <import>from gnuradio import iqbalance</import>
   <make>iqbalance.optimize_c($period)</make>
   <callback>set_period($period)</callback>
   <param>

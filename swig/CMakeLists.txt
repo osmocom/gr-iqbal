@@ -18,7 +18,7 @@
 # Boston, MA 02110-1301, USA.
 
 ########################################################################
-# Include swig generation macros
+# Setup swig generation
 ########################################################################
 find_package(SWIG)
 find_package(PythonLibs)
@@ -28,34 +28,23 @@ endif()
 include(GrSwig)
 include(GrPython)
 
-########################################################################
-# Setup swig generation
-########################################################################
-foreach(incdir ${GNURADIO_CORE_INCLUDE_DIRS})
-    list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/swig)
+foreach(incdir ${GNURADIO_RUNTIME_INCLUDE_DIRS})
+    list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gnuradio/swig)
 endforeach(incdir)
 
-foreach(incdir ${GRUEL_INCLUDE_DIRS})
-    list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gruel/swig)
-endforeach(incdir)
+set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/iqbalance_swig_doc.i)
+set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include/gnuradio/iqbalance)
+set(GR_SWIG_DOCS_TARGET_DEPS runtime_swig_swig_doc)
 
 set(GR_SWIG_LIBRARIES gnuradio-iqbalance)
-set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/iqbalance_swig_doc.i)
-set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include)
 
 GR_SWIG_MAKE(iqbalance_swig iqbalance_swig.i)
 
-########################################################################
-# Install the build swig module
-########################################################################
-GR_SWIG_INSTALL(TARGETS iqbalance_swig DESTINATION ${GR_PYTHON_DIR}/iqbalance)
+GR_SWIG_INSTALL(TARGETS iqbalance_swig DESTINATION ${GR_PYTHON_DIR}/gnuradio/iqbalance)
 
-########################################################################
-# Install swig .i files for development
-########################################################################
 install(
     FILES
     iqbalance_swig.i
     ${CMAKE_CURRENT_BINARY_DIR}/iqbalance_swig_doc.i
-    DESTINATION ${GR_INCLUDE_DIR}/iqbalance/swig
+    DESTINATION ${GR_INCLUDE_DIR}/gnuradio/swig
 )
