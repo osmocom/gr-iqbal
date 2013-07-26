@@ -36,7 +36,7 @@ if(PYTHON_EXECUTABLE)
 else(PYTHON_EXECUTABLE)
 
     #use the built-in find script
-    find_package(PythonInterp)
+    find_package(PythonInterp 2)
 
     #and if that fails use the find program routine
     if(NOT PYTHONINTERP_FOUND)
