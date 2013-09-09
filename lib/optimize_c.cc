@@ -25,6 +25,17 @@
 #include <gnuradio/io_signature.h>
 #include <gnuradio/iqbalance/optimize_c.h>
 
+#define GCC_VERSION (			\
+		__GNUC__ * 10000 +	\
+		__GNUC_MINOR__ * 100 +	\
+		__GNUC_PATCHLEVEL__	\
+	)
+
+#if GCC_VERSION >= 40800
+# define complex _Complex
+# undef _GLIBCXX_HAVE_COMPLEX_H
+#endif
+
 extern "C" {
 #include <osmocom/dsp/cxvec.h>
 #include <osmocom/dsp/iqbal.h>
