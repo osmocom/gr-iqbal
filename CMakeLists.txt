@@ -118,6 +118,8 @@ if(NOT GNURADIO_CORE_FOUND)
     message(FATAL_ERROR "GnuRadio Core required to compile iqbalance")
 endif()
 
+find_package(Doxygen)
+
 ########################################################################
 # Setup the include and linker paths
 ########################################################################
