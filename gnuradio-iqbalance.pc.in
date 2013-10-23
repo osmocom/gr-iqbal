@@ -6,6 +6,7 @@ includedir=@includedir@
 Name: gnuradio-iqbalance
 Description: gnuradio I/Q balancing
 URL: http://git.osmocom.org/gr-iqbal/
+Version: 0
 Requires: gnuradio-runtime
 Libs: -L${libdir} -lgnuradio-iqbalance
 Cflags: -I${includedir}
