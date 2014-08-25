@@ -29,7 +29,7 @@ list(APPEND iqbalance_sources
 )
 
 add_library(gnuradio-iqbalance SHARED ${iqbalance_sources} ${LIBOSMODSP_SOURCES})
-target_link_libraries(gnuradio-iqbalance ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${LIBOSMODSP_LIBRARIES})
+target_link_libraries(gnuradio-iqbalance ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${LIBOSMODSP_LIBRARIES})
 set_target_properties(gnuradio-iqbalance PROPERTIES DEFINE_SYMBOL "gnuradio_iqbalance_EXPORTS")
 
 ########################################################################

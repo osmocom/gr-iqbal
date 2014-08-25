@@ -124,14 +124,14 @@ include_directories(
     ${Boost_INCLUDE_DIRS}
     ${FFTW3F_INCLUDE_DIRS}
     ${LIBOSMODSP_INCLUDE_DIRS}
-    ${GNURADIO_RUNTIME_INCLUDE_DIRS}
+    ${GNURADIO_ALL_INCLUDE_DIRS}
 )
 
 link_directories(
     ${Boost_LIBRARY_DIRS}
     ${FFTW3F_LIBRARY_DIRS}
     ${LIBOSMODSP_LIBRARY_DIRS}
-    ${GNURADIO_RUNTIME_LIBRARY_DIRS}
+    ${GNURADIO_ALL_LIBRARY_DIRS}
 )
 
 # Set component parameters
