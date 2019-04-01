@@ -1,0 +1,31 @@
+id: iqbalance_fix_cc
+label: IQ Bal Fix
+category: '[iqbalance]'
+
+templates:
+  imports: import iqbalance
+  make: iqbalance.fix_cc(mag, phase)
+
+parameters:
+- id: mag
+  label: Magnitude
+  dtype: real
+- id: phase
+  label: Phase
+  dtype: real
+
+inputs:
+- label: in
+  domain: stream
+  dtype: complex
+- label: iqbalance_corr
+  domain: stream
+  dtype: message
+  optional: true
+
+outputs:
+- label: out
+  domain: stream
+  dtype: complex
+
+file_format: 1

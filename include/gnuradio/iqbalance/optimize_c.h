@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /*
- * Copyright 2013  Sylvain Munaut <tnt@246tNt.com>
+ * Copyright 2019 gr-iqbalance author.
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,49 +18,55 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef INCLUDED_IQBALANCE_OPTIMIZE_C_H
 #define INCLUDED_IQBALANCE_OPTIMIZE_C_H
 
-#include <gnuradio/iqbalance/api.h>
+#include "api.h"
 #include <gnuradio/sync_block.h>
 
 namespace gr {
   namespace iqbalance {
 
-    class IQBALANCE_API optimize_c : public gr::sync_block
+    /*!
+     * \brief <+description of block+>
+     * \ingroup iqbalance
+     *
+     */
+    class IQBALANCE_API optimize_c : virtual public gr::sync_block
     {
-     private:
-      optimize_c(int period);
+    protected:
+        int d_period, d_count;
+        bool d_first;
+        float d_mag, d_phase;
 
-      int d_period, d_count;
-      bool d_first;
-      float d_mag, d_phase;
-
+        optimize_c(int period, int count, bool first, float mag, float phase): d_period(period), d_count(count),
+                                                                               d_first(first),
+                                                                               d_mag(mag), d_phase(phase) {}
      public:
-      typedef boost::shared_ptr<optimize_c> sptr;
 
-      static sptr make(int period=0);
+        typedef boost::shared_ptr<optimize_c> sptr;
 
-      ~optimize_c();
+        /*!
+        * \brief Return a shared_ptr to a new instance of iqbalance::optimize_c.
+        *
+        * To avoid accidental use of raw pointers, iqbalance::optimize_c's
+        * constructor is in a private implementation
+        * class. iqbalance::optimize_c::make is the public interface for
+        * creating new instances.
+        */
+        static sptr make(int period=0);
 
-      void set_period(int period) { this->d_period = period; }
-      int period() const { return this->d_period; }
+        void set_period(int period) { this->d_period = period; }
+        int period() const { return this->d_period; }
 
-      float mag() const { return this->d_mag; }
-      float phase() const { return this->d_phase; }
+        float mag() const { return this->d_mag; }
+        float phase() const { return this->d_phase; }
 
-      void reset(void) {
-    	this->d_first = true;
-    	this->d_count = 0;
-    	this->d_mag = this->d_phase = 0.0f;
-      }
-
-      void forecast (int noutput_items, gr_vector_int &ninput_items_required);
-
-      int work (int noutput_items,
-                gr_vector_const_void_star &input_items,
-                gr_vector_void_star &output_items);
+        void reset(void) {
+            this->d_first = true;
+            this->d_count = 0;
+            this->d_mag = this->d_phase = 0.0f;
+        }
     };
 
   } // namespace iqbalance

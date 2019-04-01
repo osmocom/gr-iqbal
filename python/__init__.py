@@ -22,9 +22,14 @@
 This is the GNU Radio IQBALANCE module. Place your Python package
 description here (python/__init__.py).
 '''
+from __future__ import unicode_literals
 
 # import swig generated symbols into the iqbalance namespace
-from iqbalance_swig import *
+try:
+    # this might fail if the module is python-only
+    from .iqbalance_swig import *
+except ImportError:
+    pass
 
 # import any pure python here
 #

@@ -1,0 +1,25 @@
+id: iqbalance_optimize_c
+label: IQ Bal Optimize
+category: '[iqbalance]'
+
+templates:
+  imports: import iqbalance
+  make: iqbalance.optimize_c(period)
+
+parameters:
+- id: period
+  label: Period
+  dtype: int
+
+inputs:
+- label: in
+  domain: stream
+  dtype: complex
+
+outputs:
+- label: iqbalance_corr
+  domain: message
+  dtype: message
+  optional: true
+
+file_format: 1

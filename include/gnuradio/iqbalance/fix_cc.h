@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /*
- * Copyright 2013  Sylvain Munaut <tnt@246tNt.com>
+ * Copyright 2019 gr-iqbalance author.
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,41 +18,45 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
 #ifndef INCLUDED_IQBALANCE_FIX_CC_H
 #define INCLUDED_IQBALANCE_FIX_CC_H
 
-#include <gnuradio/iqbalance/api.h>
+#include "api.h"
 #include <gnuradio/sync_block.h>
 
 namespace gr {
   namespace iqbalance {
 
-    class IQBALANCE_API fix_cc : public gr::sync_block
+    /*!
+     * \brief <+description of block+>
+     * \ingroup iqbalance
+     *
+     */
+    class IQBALANCE_API fix_cc : virtual public gr::sync_block
     {
-     private:
-      fix_cc(float mag, float phase);
+    protected:
+        float d_mag, d_phase;
+        fix_cc(float mag, float phase): d_mag(mag), d_phase(phase) {}
 
-      float d_mag, d_phase;
+    public:
 
-     public:
-      typedef boost::shared_ptr<fix_cc> sptr;
+        typedef boost::shared_ptr<fix_cc> sptr;
 
-      static sptr make(float mag=0.0f, float phase=0.0f);
+        /*!
+        * \brief Return a shared_ptr to a new instance of iqbalance::fix_cc.
+        *
+        * To avoid accidental use of raw pointers, iqbalance::fix_cc's
+        * constructor is in a private implementation
+        * class. iqbalance::fix_cc::make is the public interface for
+        * creating new instances.
+        */
+        static sptr make(float mag=0.0f, float phase=0.0f);
 
-      ~fix_cc();
+        void set_mag(float mag) { this->d_mag = mag; }
+        void set_phase(float phase) { this->d_phase = phase; }
 
-      void set_mag(float mag) { this->d_mag = mag; }
-      void set_phase(float phase) { this->d_phase = phase; }
-
-      float mag() const { return this->d_mag; }
-      float phase() const { return this->d_phase; }
-
-      void apply_new_corrections (pmt::pmt_t msg);
-
-      int work (int noutput_items,
-                gr_vector_const_void_star &input_items,
-                gr_vector_void_star &output_items);
+        float mag() const { return this->d_mag; }
+        float phase() const { return this->d_phase; }
     };
 
   } // namespace iqbalance
