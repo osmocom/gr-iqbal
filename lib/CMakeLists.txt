@@ -34,7 +34,7 @@ if(NOT iqbalance_sources)
     return()
 endif(NOT iqbalance_sources)
 
-add_library(gnuradio-iqbalance SHARED ${iqbalance_sources})
+add_library(gnuradio-iqbalance SHARED ${iqbalance_sources} ${LIBOSMODSP_SOURCES})
 target_link_libraries(gnuradio-iqbalance gnuradio::gnuradio-runtime ${LIBOSMODSP_LIBRARIES})
 target_include_directories(gnuradio-iqbalance
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
