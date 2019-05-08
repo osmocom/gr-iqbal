@@ -94,6 +94,11 @@ endif()
 # Install directories
 ########################################################################
 find_package(Gnuradio REQUIRED)
+set(MIN_GR_VERSION "3.8")
+if("${Gnuradio_VERSION}" VERSION_LESS MIN_GR_VERSION)
+    MESSAGE(FATAL_ERROR "GnuRadio version required: >=\"" ${MIN_GR_VERSION} "\" found: \"" ${Gnuradio_VERSION} "\"")
+endif()
+
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX
