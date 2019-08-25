@@ -1,0 +1,4 @@
+'[Core]':
+-   IQ Balance:
+    - iqbalance_fix_cc
+    - iqbalance_optimize_c

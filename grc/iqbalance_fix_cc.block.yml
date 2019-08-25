@@ -1,0 +1,43 @@
+id: iqbalance_fix_cc
+label: IQ Bal Fix
+flags: [ python, cpp ]
+
+parameters:
+-   id: mag
+    label: Magnitude
+    dtype: real
+    default: 0
+-   id: phase
+    label: Phase
+    dtype: real
+    default: 0
+
+inputs:
+-   domain: stream
+    dtype: complex
+-   domain: message
+    id: iqbal_corr
+    dtype: complex
+    optional: true
+
+outputs:
+-   domain: stream
+    dtype: complex
+
+templates:
+    imports: from gnuradio import iqbalance
+    make: iqbalance.fix_cc(${mag}, ${phase})
+    callbacks:
+    - set_mag(${mag})
+    - set_phase(${phase})
+
+cpp_templates:
+    includes: ['#include <gnuradio/iqbalance.h>']
+    declarations: 'iqbalance::fix_cc::sptr ${id};'
+    make: 'this->${id} = iqbalance::fix_cc::make(${mag}, ${phase});'
+    callbacks:
+    - set_mag(${mag})
+    - set_phase(${phase})
+    link: ['gnuradio-iqbalance']
+
+file_format: 1
