@@ -31,7 +31,7 @@
 		__GNUC_PATCHLEVEL__	\
 	)
 
-#if GCC_VERSION >= 40800
+#if GCC_VERSION >= 40800 || defined(__clang__)
 # define complex _Complex
 # undef _GLIBCXX_HAVE_COMPLEX_H
 #endif
