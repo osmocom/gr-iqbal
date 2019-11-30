@@ -24,7 +24,7 @@ description here (python/__init__.py).
 '''
 
 # import swig generated symbols into the iqbalance namespace
-from iqbalance_swig import *
+from .iqbalance_swig import *
 
 # import any pure python here
 #

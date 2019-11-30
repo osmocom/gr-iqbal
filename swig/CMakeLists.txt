@@ -18,30 +18,38 @@
 # Boston, MA 02110-1301, USA.
 
 ########################################################################
-# Setup swig generation
+# Include swig generation macros
 ########################################################################
 find_package(SWIG)
-find_package(PythonLibs 2)
+find_package(PythonLibs 3)
 if(NOT SWIG_FOUND OR NOT PYTHONLIBS_FOUND)
     return()
 endif()
 include(GrSwig)
 include(GrPython)
 
-foreach(incdir ${GNURADIO_RUNTIME_INCLUDE_DIRS})
-    list(APPEND GR_SWIG_INCLUDE_DIRS ${incdir}/gnuradio/swig)
-endforeach(incdir)
+########################################################################
+# Setup swig generation
+########################################################################
+set(GR_SWIG_INCLUDE_DIRS $<TARGET_PROPERTY:gnuradio::runtime_swig,INTERFACE_INCLUDE_DIRECTORIES>)
+set(GR_SWIG_TARGET_DEPS gnuradio::runtime_swig)
+
+set(GR_SWIG_LIBRARIES gnuradio-iqbalance)
 
 set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/iqbalance_swig_doc.i)
 set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include/gnuradio/iqbalance)
 set(GR_SWIG_DOCS_TARGET_DEPS runtime_swig_swig_doc)
 
-set(GR_SWIG_LIBRARIES gnuradio-iqbalance)
-
 GR_SWIG_MAKE(iqbalance_swig iqbalance_swig.i)
 
+########################################################################
+# Install the build swig module
+########################################################################
 GR_SWIG_INSTALL(TARGETS iqbalance_swig DESTINATION ${GR_PYTHON_DIR}/gnuradio/iqbalance)
 
+########################################################################
+# Install swig .i files for development
+########################################################################
 install(
     FILES
     iqbalance_swig.i
