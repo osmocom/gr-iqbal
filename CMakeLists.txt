@@ -206,24 +206,6 @@ add_subdirectory(apps)
 add_subdirectory(docs)
 
 ########################################################################
-# Create Pkg Config File
-########################################################################
-file(TO_NATIVE_PATH "${CMAKE_INSTALL_PREFIX}"           prefix)
-file(TO_NATIVE_PATH "\${prefix}"                        exec_prefix)
-file(TO_NATIVE_PATH "\${exec_prefix}/${GR_LIBRARY_DIR}" libdir)
-file(TO_NATIVE_PATH "\${prefix}/${GR_INCLUDE_DIR}"      includedir)
-
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/gnuradio-iqbalance.pc.in
-    ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-iqbalance.pc
-@ONLY)
-
-install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/gnuradio-iqbalance.pc
-    DESTINATION ${GR_LIBRARY_DIR}/pkgconfig
-)
-
-########################################################################
 # Install cmake search helper for this library
 ########################################################################
 #install(FILES cmake/Modules/gnuradio-iqbalanceConfig.cmake
