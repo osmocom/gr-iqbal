@@ -26,6 +26,9 @@ include(GNUInstallDirs)
 project(gr-iqbalance CXX C)
 enable_testing()
 
+#policy setup
+cmake_policy(SET CMP0011 NEW)
+
 #select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
@@ -34,16 +37,18 @@ endif(NOT CMAKE_BUILD_TYPE)
 set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 
 ########################################################################
-# set search path for cmake modules to OOT, Gnuradio
+# GNURadio setup
 ########################################################################
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
-find_package(Gnuradio "3.8" REQUIRED runtime)
+
+# Find GNURadio
+find_package(Gnuradio "3.8" REQUIRED)
 
 # Set the version information here
-set(VERSION_INFO_MAJOR_VERSION 3)
-set(VERSION_INFO_API_COMPAT    8)
-set(VERSION_INFO_MINOR_VERSION 0)
-set(VERSION_INFO_MAINT_VERSION "")
+set(VERSION_MAJOR 3)
+set(VERSION_API   8)
+set(VERSION_ABI   0)
+set(VERSION_PATCH 0)
 include(GrVersion) #setup version info
 
 ########################################################################
@@ -66,20 +71,10 @@ else()
     message(WARNING "C++ standard could not be set because compiler is not GNU, Clang or MSVC.")
 endif()
 
-if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_C_STANDARD 11)
-elseif(CMAKE_C_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_C_STANDARD 11)
-elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_C_STANDARD 11)
-else()
-    message(WARNING "C standard could not be set because compiler is not GNU, Clang or MSVC.")
-endif()
-
 ########################################################################
 # Find boost
 ########################################################################
-find_package(Boost "1.67" REQUIRED system)
+find_package(Boost "1.65" REQUIRED system)
 
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost required to compile iqbalance")
@@ -102,15 +97,13 @@ find_package(LibOsmoDSP)
 if(LIBOSMODSP_FOUND)
     set(LIBOSMODSP_SEL_INCLUDE_DIRS ${LIBOSMODSP_INCLUDE_DIRS})
     set(LIBOSMODSP_SEL_LIBRARIES ${LIBOSMODSP_LIBRARIES})
-    set(LIBOSMODSP_SEL_LIBRARY_DIRS ${LIBOSMODSP_LIBRARY_DIRS})
     set(LIBOSMODSP_SEL_SOURCES "")
 endif()
 
 if(NOT LIBOSMODSP_FOUND)
     message(STATUS "libosmodsp not found, using local checkout")
-    set(LIBOSMODSP_SEL_INCLUDE_DIRS ${FFTW3f_INCLUDE_DIRS} "libosmo-dsp/include/")
+    set(LIBOSMODSP_SEL_INCLUDE_DIRS ${FFTW3f_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/include/")
     set(LIBOSMODSP_SEL_LIBRARIES ${FFTW3f_LIBRARIES})
-    set(LIBOSMODSP_SEL_LIBRARY_DIRS ${FFTW3f_LIBRARY_DIRS})
     set(LIBOSMODSP_SEL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/src/cxvec.c ${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/src/iqbal.c)
 endif()
 
@@ -123,19 +116,12 @@ if(NOT CMAKE_MODULES_DIR)
   set(CMAKE_MODULES_DIR lib${LIB_SUFFIX}/cmake)
 endif(NOT CMAKE_MODULES_DIR)
 
-set(GR_RUNTIME_DIR      bin)
-set(GR_LIBRARY_DIR      lib${LIB_SUFFIX})
 set(GR_INCLUDE_DIR      include)
-SET(GR_CMAKE_DIR        ${CMAKE_MODULES_DIR}/gr-iqbal)
-set(GR_DATA_DIR         share)
+set(GR_CMAKE_DIR        ${CMAKE_MODULES_DIR}/gnuradio)
 set(GR_PKG_DATA_DIR     ${GR_DATA_DIR}/${CMAKE_PROJECT_NAME})
-set(GR_DOC_DIR          ${GR_DATA_DIR}/doc)
 set(GR_PKG_DOC_DIR      ${GR_DOC_DIR}/${CMAKE_PROJECT_NAME})
-set(GR_CONF_DIR         etc)
 set(GR_PKG_CONF_DIR     ${GR_CONF_DIR}/${CMAKE_PROJECT_NAME}/conf.d)
-set(GR_LIBEXEC_DIR      libexec)
 set(GR_PKG_LIBEXEC_DIR  ${GR_LIBEXEC_DIR}/${CMAKE_PROJECT_NAME})
-set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
 
 ########################################################################
 # On Apple only, set install name and use rpath correctly, if not already set
@@ -163,24 +149,13 @@ endif(APPLE)
 find_package(Doxygen)
 
 ########################################################################
-# Setup the include and linker paths
+# Setup doxygen option
 ########################################################################
-include_directories(
-    ${CMAKE_SOURCE_DIR}/include
-    ${Boost_INCLUDE_DIRS}
-    ${LIBOSMODSP_SEL_INCLUDE_DIRS}
-    ${GNURADIO_ALL_INCLUDE_DIRS}
-)
-
-link_directories(
-    ${Boost_LIBRARY_DIRS}
-    ${LIBOSMODSP_SEL_LIBRARY_DIRS}
-    ${GNURADIO_ALL_LIBRARY_DIRS}
-)
-
-# Set component parameters
-set(GR_IQBALANCE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "" FORCE)
-set(GR_IQBALANCE_SWIG_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/swig CACHE INTERNAL "" FORCE)
+if(DOXYGEN_FOUND)
+    option(ENABLE_DOXYGEN "Build docs using Doxygen" ON)
+else(DOXYGEN_FOUND)
+    option(ENABLE_DOXYGEN "Build docs using Doxygen" OFF)
+endif(DOXYGEN_FOUND)
 
 ########################################################################
 # Create uninstall target
@@ -199,15 +174,8 @@ add_custom_target(uninstall
 ########################################################################
 add_subdirectory(include/gnuradio/iqbalance)
 add_subdirectory(lib)
+add_subdirectory(apps)
+add_subdirectory(docs)
 add_subdirectory(swig)
 add_subdirectory(python)
 add_subdirectory(grc)
-add_subdirectory(apps)
-add_subdirectory(docs)
-
-########################################################################
-# Install cmake search helper for this library
-########################################################################
-#install(FILES cmake/Modules/gnuradio-iqbalanceConfig.cmake
-#    DESTINATION ${CMAKE_MODULES_DIR}/gnuradio-iqbalance
-#)

@@ -30,10 +30,11 @@ list(APPEND iqbalance_sources
 add_library(gnuradio-iqbalance SHARED ${iqbalance_sources} ${LIBOSMODSP_SEL_SOURCES})
 target_link_libraries(gnuradio-iqbalance gnuradio::gnuradio-runtime ${LIBOSMODSP_SEL_LIBRARIES})
 target_include_directories(gnuradio-iqbalance
+    PRIVATE ${LIBOSMODSP_SEL_INCLUDE_DIRS}
+    PUBLIC ${Boost_INCLUDE_DIRS}
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<INSTALL_INTERFACE:include>
   )
-set_target_properties(gnuradio-iqbalance PROPERTIES OUTPUT_NAME gnuradio-iqbalance)
 set_target_properties(gnuradio-iqbalance PROPERTIES DEFINE_SYMBOL "gnuradio_iqbalance_EXPORTS")
 
 if(APPLE)
@@ -46,8 +47,6 @@ endif(APPLE)
 # Install built library files
 ########################################################################
 include(GrMiscUtils)
-set(VERSION "3.8.0")
-set(LIBVER "3.8.0")
 GR_LIBRARY_FOO(gnuradio-iqbalance)
 
 ########################################################################
@@ -59,9 +58,23 @@ message(STATUS "Building for version: ${VERSION} / ${LIBVER}")
 ########################################################################
 # Build and register unit test
 ########################################################################
-find_package(Boost COMPONENTS unit_test_framework)
-
 include(GrTest)
-list(APPEND GR_TEST_TARGET_DEPS gnuradio-iqbalance)
-#turn each test cpp file into an executable with an int main() function
-add_definitions(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
+
+# If your unit tests require special include paths, add them here
+#include_directories()
+# List all files that contain Boost.UTF unit tests here
+list(APPEND iqbalance_test_sources
+)
+# Anything we need to link to for the unit tests go here
+list(APPEND GR_TEST_TARGET_DEPS gnuradio-test)
+
+if(NOT iqbalance_test_sources)
+    MESSAGE(STATUS "No C++ unit tests... skipping")
+    return()
+endif(NOT iqbalance_test_sources)
+
+foreach(qa_file ${iqbalance_test_sources})
+    GR_ADD_CPP_TEST("test_${qa_file}"
+        ${CMAKE_CURRENT_SOURCE_DIR}/${qa_file}
+    )
+endforeach(qa_file)

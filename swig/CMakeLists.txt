@@ -38,7 +38,6 @@ set(GR_SWIG_LIBRARIES gnuradio-iqbalance)
 
 set(GR_SWIG_DOC_FILE ${CMAKE_CURRENT_BINARY_DIR}/iqbalance_swig_doc.i)
 set(GR_SWIG_DOC_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/../include/gnuradio/iqbalance)
-set(GR_SWIG_DOCS_TARGET_DEPS runtime_swig_swig_doc)
 
 GR_SWIG_MAKE(iqbalance_swig iqbalance_swig.i)
 
