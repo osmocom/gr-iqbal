@@ -43,7 +43,7 @@ iqbalance::fix_cc::fix_cc(float mag, float phase)
 {
 	message_port_register_in(pmt::mp("iqbal_corr"));
 	set_msg_handler(pmt::mp("iqbal_corr"),
-			boost::bind(&iqbalance::fix_cc::apply_new_corrections, this, _1));
+			boost::bind(&iqbalance::fix_cc::apply_new_corrections, this, boost::placeholders::_1));
 }
 
 
