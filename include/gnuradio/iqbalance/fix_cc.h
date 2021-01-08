@@ -18,9 +18,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-
-#ifndef INCLUDED_IQBALANCE_FIX_CC_H
-#define INCLUDED_IQBALANCE_FIX_CC_H
+#pragma once
 
 #include <gnuradio/iqbalance/api.h>
 #include <gnuradio/sync_block.h>
@@ -57,6 +55,3 @@ namespace gr {
 
   } // namespace iqbalance
 } // namespace gr
-
-#endif /* INCLUDED_IQBALANCE_FIX_CC_H */
-

@@ -19,8 +19,7 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_IQBALANCE_API_H
-#define INCLUDED_IQBALANCE_API_H
+#pragma once
 
 #include <gnuradio/attributes.h>
 
@@ -29,5 +28,3 @@
 #else
 #  define IQBALANCE_API __GR_ATTR_IMPORT
 #endif
-
-#endif /* INCLUDED_IQBALANCE_API_H */
