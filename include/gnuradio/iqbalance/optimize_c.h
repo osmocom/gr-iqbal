@@ -26,7 +26,7 @@ namespace gr {
       float d_mag, d_phase;
 
      public:
-      typedef boost::shared_ptr<optimize_c> sptr;
+      typedef std::shared_ptr<optimize_c> sptr;
 
       static sptr make(int period=0);
 
