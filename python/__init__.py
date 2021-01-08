@@ -5,7 +5,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 '''
-This is the GNU Radio IQBALANCE module. Place your Python package
-description here (python/__init__.py).
+This is the GNU Radio IQBALANCE module.
 '''
 
+# import pybind11 generated symbols into the iqbalance namespace
+from .iqbalance_python import *
