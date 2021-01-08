@@ -9,8 +9,8 @@
 # Project setup
 ########################################################################
 cmake_minimum_required(VERSION 3.8)
-include(GNUInstallDirs)
 project(gr-iqbalance CXX C)
+include(GNUInstallDirs)
 enable_testing()
 
 #policy setup
@@ -29,11 +29,11 @@ set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 # Find GNURadio
-find_package(Gnuradio "3.8" REQUIRED)
+find_package(Gnuradio "3.9" REQUIRED)
 
 # Set the version information here
 set(VERSION_MAJOR 3)
-set(VERSION_API   8)
+set(VERSION_API   9)
 set(VERSION_ABI   0)
 set(VERSION_PATCH 0)
 include(GrVersion) #setup version info
@@ -49,13 +49,23 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR
 endif()
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 14)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 14)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 14)
 else()
     message(WARNING "C++ standard could not be set because compiler is not GNU, Clang or MSVC.")
+endif()
+
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    set(CMAKE_C_STANDARD 11)
+elseif(CMAKE_C_COMPILER_ID MATCHES "Clang")
+    set(CMAKE_C_STANDARD 11)
+elseif(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+    set(CMAKE_C_STANDARD 11)
+else()
+    message(WARNING "C standard could not be set because compiler is not GNU, Clang or MSVC.")
 endif()
 
 ########################################################################
