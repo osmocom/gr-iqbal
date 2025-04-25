@@ -100,7 +100,7 @@ endif()
 if(NOT LIBOSMODSP_FOUND)
     message(STATUS "libosmodsp not found, using local checkout")
     set(LIBOSMODSP_SEL_INCLUDE_DIRS ${FFTW3f_INCLUDE_DIRS} "${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/include/")
-    set(LIBOSMODSP_SEL_LIBRARIES ${FFTW3f_LIBRARIES})
+    set(LIBOSMODSP_SEL_LIBRARIES m ${FFTW3f_LIBRARIES})
     set(LIBOSMODSP_SEL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/src/cxvec.c ${CMAKE_CURRENT_SOURCE_DIR}/libosmo-dsp/src/iqbal.c)
 endif()
 
