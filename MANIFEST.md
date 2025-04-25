@@ -9,8 +9,8 @@ author:
 copyright_owner:
     - Sylvain Munaut <tnt@246tNt.com>
 license: GPLv3
-gr_supported_version: 3.9
-repo: git://git.osmocom.org/gr-iqbal
+gr_supported_version: 3.9, 3.10, 3.11
+repo: https://gitea.osmocom.org/sdr/gr-iqbal.git
 icon: http://people.osmocom.org/~tnt/stuff/iqbal-icon.png
 ---
 GNU Radio block to correct IQ imbalance in quadrature receivers
